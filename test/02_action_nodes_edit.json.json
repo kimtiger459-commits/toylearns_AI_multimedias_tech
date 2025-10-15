@@ -1,0 +1,94 @@
+{
+  "name": "02_action_nodes_edit.json",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d6e6d749-3841-4790-beb5-437f20a301f1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com/todos/2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "82eb45dd-6144-4cc3-a6ed-b9207e57663d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5585f82-44e5-41f1-9ef8-cd030ebdb237",
+              "name": "유저아이디",
+              "value": "={{ $json.userId }}",
+              "type": "number"
+            },
+            {
+              "id": "0bde2d9b-25dc-42fd-b5e6-421df3e65fee",
+              "name": "타이틀",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "dc10f4cb-b3c2-4a46-abbd-097bca47dabd",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1352570f-15af-420e-acb3-ac455a27b585",
+  "meta": {
+    "instanceId": "88f826aa6108025a1d1c807dce3c2f5b22fc0e3f44de3b25c24ff50ab6fbeb0d"
+  },
+  "id": "zgzCmst7LQ2LycNW",
+  "tags": []
+}
