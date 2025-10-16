@@ -1,0 +1,180 @@
+{
+  "name": "STUDY+03_trigger_SCHEDULE_RSSREAD",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "1447635940",
+        "text": "=n8n 에서\nXML형식입니다\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        -112
+      ],
+      "id": "c130279f-9329-4267-a00c-8fae1cfa1038",
+      "name": "Send a text message",
+      "webhookId": "42ee6fe1-dc13-446b-9ece-3d4e5f122a38",
+      "credentials": {
+        "telegramApi": {
+          "id": "axAbSR44Bz3BnWXV",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -512,
+        -112
+      ],
+      "id": "58d28a04-8b80-4a24-92cb-0c0860d7dd03",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://www.yna.co.kr/rss/industry.xml",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "outputType",
+              "value": "xml"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -304,
+        -112
+      ],
+      "id": "bce2c9f6-86d5-488c-b860-bc4b67622cdc",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "https://www.donga.com/news/Economy",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        112
+      ],
+      "id": "428f8899-3789-4fd6-bbdc-47802c2f912a",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        112
+      ],
+      "id": "d99875ba-7815-4570-b204-16776036f5e7",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "chatId": "1447635940",
+        "text": "=n8n 에서\n제목:{{ $json.title }}\n발행일:{{ $json.pubDate }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        112
+      ],
+      "id": "c0e9c811-efcc-4fb1-bac9-bcb2833ad381",
+      "name": "Send a text message1",
+      "webhookId": "42ee6fe1-dc13-446b-9ece-3d4e5f122a38",
+      "credentials": {
+        "telegramApi": {
+          "id": "axAbSR44Bz3BnWXV",
+          "name": "Telegram account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5631e692-a8f2-46a3-b0cc-ce71463ecf0b",
+  "meta": {
+    "instanceId": "88f826aa6108025a1d1c807dce3c2f5b22fc0e3f44de3b25c24ff50ab6fbeb0d"
+  },
+  "id": "SNYAAQvTn0qlfLqG",
+  "tags": []
+}
